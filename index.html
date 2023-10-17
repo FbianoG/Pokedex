@@ -13,25 +13,37 @@
 </head>
 
 <body>
-
+    <div class="imageA">
+        <img src="International_Pokémon_logo.svg.png" alt="">
+    </div>
     <header>
         <input type="text" placeholder="Pesquisar (nome ou id)">
-        <select name="" id="">
-            <option value="" disabled selected>Filtrar por</option>
-            <option value="id">Id</option>
-            <option value="name">Nome</option>
-            <option value="exp">Experiência</option>
-            <option value="hp">Hp</option>
-            <option value="atk">Ataque</option>
-            <option value="def">Defesa</option>
-            <option value="spd">Velocidade</option>
-        </select>
-        <select name="" id="" class="ord">
-            <option value="" disabled selected>Ordernar por</option>
-            <option value="cres">A-Z</option>
-            <option value="des">Z-A</option>
-        </select>
+        <div class="selects">
+            <select name="" id="">
+                <option value="" disabled selected>Filtrar por</option>
+                <option value="id">Id</option>
+                <option value="name">Nome</option>
+                <option value="exp">Experiência</option>
+                <option value="hp">Hp</option>
+                <option value="atk">Ataque</option>
+                <option value="def">Defesa</option>
+                <option value="spd">Velocidade</option>
+            </select>
+            <select name="" id="" class="ord">
+                <option value="" disabled selected>Ordernar por</option>
+                <option value="cres">A-Z</option>
+                <option value="des">Z-A</option>
+            </select>
+            <select name="" id="" class="ord">
+                <option value="" disabled selected>Ordernar por</option>
+                <option value="cres">A-Z</option>
+                <option value="des">Z-A</option>
+            </select>
+        </div>
+        <input type="number" placeholder="Carregar até: (max: 649)">
+        <button>Carregar</button>
     </header>
+    <h3>0 / 649</h3>
     <div class="list">
         <div class="card">
             <p class="card-id">#001</p>

@@ -6,32 +6,75 @@
     }
 
     body {
-        background: linear-gradient(to bottom, #1a2624, #22312f);
+        background: linear-gradient(to right, #e1f6e8, #bceafa);
         background-repeat: no-repeat;
         min-height: 100vh;
     }
 
+    .imageA {
+        height: 300px;
+        width: 100%;
+        background: url("Pokemon-Go-video-games-Pikachu-pokemon-1222849-wallhere.com.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: top;
+        box-shadow: 0px 2px 10px #555;
+        display: flex;
+        justify-content: center;
+        align-items: top;
+    }
+
+    .imageA img {
+        width: 350px;
+        height: 150px;
+        /* object-fit: cover; */
+    }
+
+
     header {
-        height: 200px;
-        width: 89%;
+        margin: 0 auto;
+        height: 150px;
+        width: 70%;
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        row-gap: 10px;
+        padding: 20px 0;
     }
 
     header input {
-        width: 500px;
+        width: 340px;
         height: 30px;
-        padding: 0 3px;
+        padding: 0 15px;
         border-radius: 15px;
+        outline: none;
+        border: none;
+        /* border: 1px solid #96acdc; */
+        box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.298);
+        color: #555;
+    }
+
+    header .selects {
+        display: flex;
+        gap: 20px;
     }
 
     header select {
         border-radius: 15px;
         height: 30px;
-        width: 130px;
+        /* width: 130px; */
         padding: 0 3px;
         /* text-align: center; */
+        border: none;
+        box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.298);
+        color: #555;
+    }
+
+    h3 {
+        text-align: center;
+        margin-bottom: 30px;
     }
 
     .list {
@@ -47,12 +90,13 @@
         border-radius: 10px;
         width: 200px;
         height: 270px;
-        background: #e7f7ec;
+        background: #fdfdfd;
         overflow: hidden;
         padding: 10px;
         display: flex;
         flex-direction: column;
         gap: 10px;
+        box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.298);
     }
 
     .card-id {
@@ -81,7 +125,7 @@
     .card-name {
         text-align: center;
         font-size: 16px;
-        color: #666;
+        color: #706D63;
         font-weight: bold;
         text-transform: capitalize;
 
@@ -98,8 +142,6 @@
         justify-content: center;
         align-items: center;
         width: 100px;
-        border: 1px solid #3ae39d;
-        color: #31e79b;
         border-radius: 15px;
         padding: 3px 10px;
     }
@@ -108,7 +150,7 @@
     .card-data-menu {
         display: flex;
         justify-content: space-around;
-        color: #92be9a;
+        color: #6E9B95;
         font-weight: bold;
         cursor: pointer;
         margin-bottom: 5px;
@@ -316,8 +358,33 @@
         background: #feadd3;
     }
 
+    .fa-dove {
+        background: #c9e6ed;
+    }
 
 
 
     /* box-shadow: -20px 20px 100px 50px green;
 box-shadow: 20px -20px 100px 50px red; */
+
+
+
+@media screen and (max-width: 975px ) {
+    .list {
+        width: 90%;
+    }
+    header {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 500px ) {
+    .list {
+        width: 100%;
+        gap: 10px;
+        row-gap: 30px;
+    }
+    .card {
+        width: 150px;
+    }
+}

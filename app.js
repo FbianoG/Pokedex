@@ -1,21 +1,86 @@
 let allPokemon = []
-
+let iconTypes = {
+    "grass": '<i class="fa-solid fa-leaf"></i>',
+    "fire": '<i class="fa-solid fa-fire"></i>',
+    "water": '<i class="fa-solid fa-droplet"></i>',
+    "bug": '<i class="fa-solid fa-bug"></i>',
+    "poison": '<i class="fa-solid fa-skull-crossbones"></i>',
+    "fighting": '<i class="fa-solid fa-hand-back-fist"></i>',
+    "rock": '<i class="fa-solid fa-hill-rockslide"></i>',
+    "dragon": '<i class="fa-solid fa-dragon"></i>',
+    "electric": '<i class="fa-solid fa-bolt"></i>',
+    "fairy": '<i class="fa-solid fa-wand-magic-sparkles"></i>',
+    "ground": '<i class="fa-solid fa-mound"></i>',
+    "normal": '<i class="fa-solid fa-filter"></i>',
+    "psychic": '<i class="fa-solid fa-brain"></i>',
+    "ghost": '<i class="fa-solid fa-ghost"></i>',
+    "ice": '<i class="fa-solid fa-cubes"></i>',
+    "dark": '<i class="fa-solid fa-circle-half-stroke"></i>',
+    "flying": '<i class="fa-solid fa-dove"></i>',
+}
+let valueTarget = document.querySelectorAll('input')[1]
+let btnGerar = document.querySelectorAll('button')[0]
 let filterName = document.querySelectorAll('input')[0]
 let alvoTemp = ''
 let card = document.querySelectorAll('.card')[0]
 let list = document.querySelectorAll('.list')[0]
 let ordStatus = document.querySelectorAll('.ord')[0]
 let filterStatus = document.querySelectorAll('select')[0]
+let count = document.querySelectorAll('h3')[0]
 
-console.log(ordStatus);
+valueTarget.value = 25 
+
 
 // Eventos
 
-filterName.addEventListener('keyup', () => {
+filterName.addEventListener('keyup',searchPokemon)
+filterStatus.addEventListener('change', ordenar)
+ordStatus.addEventListener('change', ordenar)
+btnGerar.addEventListener('click', getApi)
+
+
+
+// Funções
+
+function countPokemon() {
+    let cards = document.querySelectorAll('.card')
+    count.textContent = `${cards.length} / 649`
+}
+
+async function getApi() { // faz requisição à api
+    list.innerHTML = ''
+    let cachePokemon = localStorage.getItem("Cache Pokemon:")
+    numPokemon = 1
+
+    if (cachePokemon) {
+        allPokemon = JSON.parse(cachePokemon)
+        allPokemon.forEach(element => {
+            createCard(element)
+        });
+        numPokemon = allPokemon.length + 1
+    }
+    try {
+        for (let i = numPokemon; i <= valueTarget.value; i++) {
+            let api = await fetch(`https://pokeapi.co/api/v2/pokemon/${i}/`)
+            let data = await api.json()
+            let pokemon = createPokemon(data) // criar um pokemon com os dados da api
+            createCard(pokemon) // crio o html do pokemon
+            allPokemon.push(pokemon) // inclui o pokemon no array
+            localStorage.setItem("Cache Pokemon:", JSON.stringify(allPokemon)) // salva o array no cache
+            countPokemon()
+        }
+        console.log("Lista de Pokemon foi gerada com sucesso!");
+    } catch (error) {
+        console.log("Um erro foi encontrado:", error);
+    }
+    list.addEventListener('click', showStatus)
+    countPokemon()
+}
+
+function searchPokemon() { // function de pesquisar o pokemon por "nome" ou "id"
     let allFilter = allPokemon.filter(element => {
         if (!isNaN(filterName.value) && filterName.value != "") {
             return element.id == filterName.value
-
         } else {
             return element.name.includes(filterName.value)
         }
@@ -24,15 +89,10 @@ filterName.addEventListener('keyup', () => {
     allFilter.forEach(element => {
         createCard(element)
     });
-})
+    countPokemon()
+}
 
-filterStatus.addEventListener('change', ordenar)
-ordStatus.addEventListener('change', ordenar)
-
-
-// Funções
-
-function ordenar() {
+function ordenar() { // filtra a lista por categoria e ordem
     let status = filterStatus.value
     let ord = ordStatus.value
     let allChange = allPokemon.sort((a, b) => {
@@ -57,69 +117,14 @@ function ordenar() {
     });
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-async function getApi() {
-    let cachePokemon = localStorage.getItem("Cache Pokemon:")
-    numPokemon = 1
-    if (cachePokemon) {
-        allPokemon = JSON.parse(cachePokemon)
-        allPokemon.forEach(element => {
-            createCard(element)
-        });
-        numPokemon = allPokemon.length + 1
-    }
-    try {
-        for (let i = numPokemon; i <= 250; i++) {
-            let api = await fetch(`https://pokeapi.co/api/v2/pokemon/${i}/`)
-            let data = await api.json()
-
-            let pokemon = {
-                id: data.id,
-                name: data.name,
-                img: data.sprites.other.dream_world.front_default,
-                type1: data.types[0].type.name,
-                exp: data.base_experience,
-                hp: data.stats[0].base_stat,
-                atk: data.stats[1].base_stat,
-                def: data.stats[2].base_stat,
-                spd: data.stats[5].base_stat,
-                m: data.height,
-                kg: data.weight
-            }
-            createCard(pokemon)
-            allPokemon.push(pokemon)
-            localStorage.setItem("Cache Pokemon:", JSON.stringify(allPokemon))
-        }
-
-        console.log(allPokemon);
-    } catch (error) {
-        console.log("Um erro foi encontrado:", error);
-    }
-    list.addEventListener('click', showStatus)
-}
-
-function createCard(e) {
+function createCard(e) { // cria o html do pokemon
     let newCard = document.createElement('div')
     newCard.classList = "card"
     newCard.innerHTML = modelCard(e)
     list.appendChild(newCard)
-
 };
 
-function showStatus(e) {
+function showStatus(e) { // alterna entre as abas do status do pokemon
     let alvo = e.target
 
     if (alvo.textContent == 'Status') {
@@ -145,44 +150,61 @@ function showStatus(e) {
     }
 }
 
+function createPokemon(e) { // cria um pokemon
+    let typeT = ''
+    if (e.types[1]) {
+       typeT = e.types[1].type.name  
+    }else {
+       typeT = ""
+    }
+    return {
+        id: e.id,
+        name: e.name,
+        img: e.sprites.other.dream_world.front_default,
+        type1: e.types[0].type.name,
+        type2: typeT,
+        exp: e.base_experience,
+        hp: e.stats[0].base_stat,
+        atk: e.stats[1].base_stat,
+        def: e.stats[2].base_stat,
+        spd: e.stats[5].base_stat,
+        m: e.height,
+        kg: e.weight
 
-let iconTypes = {
-    "grass": '<i class="fa-solid fa-leaf"></i>',
-    "fire": '<i class="fa-solid fa-fire"></i>',
-    "water": '<i class="fa-solid fa-droplet"></i>',
-    "bug": '<i class="fa-solid fa-bug"></i>',
-    "poison": '<i class="fa-solid fa-skull-crossbones"></i>',
-    "fighting": '<i class="fa-solid fa-hand-back-fist"></i>',
-    "rock": '<i class="fa-solid fa-hill-rockslide"></i>',
-    "dragon":'<i class="fa-solid fa-dragon"></i>',
-    "electric": '<i class="fa-solid fa-bolt"></i>',
-    "fairy": '<i class="fa-solid fa-wand-magic-sparkles"></i>',
-    "ground": '<i class="fa-solid fa-mound"></i>',
-    "normal":'<i class="fa-solid fa-filter"></i>',
-    "psychic": '<i class="fa-solid fa-brain"></i>',
-    "ghost": '<i class="fa-solid fa-ghost"></i>',
-    "ice": '<i class="fa-solid fa-cubes"></i>',
-    "dark": '<i class="fa-solid fa-circle-half-stroke"></i>',
+    }
 }
 
-function modelCard(e) {
-
-type = e.type1
-
-if (type in iconTypes) {
-    type = iconTypes[type]
-}
-console.log(type);
-
-    return `
-    <p class="card-id">#${e.id.toString().padStart(3, "0")}</p>
+function modelCard(e) { // cria o html do pokemon
+    const id = e.id.toString().padStart(3, "0")
+    const img = e.img;
+    const name = e.name;
+    let type1 = e.type1;
+    let type2 = e.type2
+    const exp = e.exp
+    const expWidth = (e.exp / 635) * 100;
+    const hp = e.hp
+    const hpWidth = (e.hp / 255) * 100;
+    const atk = (e.atk)
+    const atkWidth = (e.atk / 165) * 100
+    const def = (e.def)
+    const defWidth = (e.def / 230) * 100
+    const spd = (e.spd)
+    const spdWidth = (e.spd / 160) * 100
+    if (type1 in iconTypes) {
+        type1 = iconTypes[type1]
+    }
+    if (type2 in iconTypes) {
+        type2 = `<span>${iconTypes[type2]}</span>`
+    }
+    const html = `
+    <p class="card-id">#${id}</p>
     <div class="card-image">
-        <img src="${e.img}" alt="">
+        <img src="${img}" alt="">
     </div>
-    <p class="card-name">${e.name}</p>
+    <p class="card-name">${name}</p>
     <div class="card-types">
-        <span>${e.type1}</span>
-        <span>${e.type1}</span>
+        <span>${type1}</span>
+        <span>${type1}</span>
     </div>
     <div class="card-data">
         <div class="card-data-menu">
@@ -194,46 +216,46 @@ console.log(type);
             <div class="card-data-status">
                 <p>Exp</p>
                 <b>
-                    <p>${e.exp}</p>
+                    <p>${exp}</p>
                 </b>
                 <div class="status-bar">
-                    <div class="status-bar-back" style="width:${(e.exp / 635) * 100}%;"></div>
+                    <div class="status-bar-back" style="width:${expWidth}%;"></div>
                 </div>
             </div>
             <div class="card-data-status">
                 <p>Hp</p>
                 <b>
-                    <p>${e.hp}</p>
+                    <p>${hp}</p>
                 </b>
                 <div class="status-bar">
-                    <div class="status-bar-back" style="width:${(e.hp / 255) * 100}% ;"></div>
+                    <div class="status-bar-back" style="width:${hpWidth}% ;"></div>
                 </div>
             </div>
             <div class="card-data-status">
                 <p>Atk</p>
                 <b>
-                    <p>${e.atk}</p>
+                    <p>${atk}</p>
                 </b>
                 <div class="status-bar">
-                    <div class="status-bar-back" style="width:${(e.atk / 134) * 100}% ;" ></div>
+                    <div class="status-bar-back" style="width:${atkWidth}% ;" ></div>
                 </div>
             </div>
             <div class="card-data-status">
                 <p>Def</p>
                 <b>
-                    <p>${e.def}</p>
+                    <p>${def}</p>
                 </b>
                 <div class="status-bar">
-                    <div class="status-bar-back" style="width:${(e.def / 230) * 100}%;"></div>
+                    <div class="status-bar-back" style="width:${defWidth}%;"></div>
                 </div>
             </div>
             <div class="card-data-status">
                 <p>Spd</p>
                 <b>
-                    <p>${e.spd}</p>
+                    <p>${spd}</p>
                 </b>
                 <div class="status-bar">
-                    <div class="status-bar-back" style="width:${(e.spd / 150) * 100}%;"></div>
+                    <div class="status-bar-back" style="width:${spdWidth}%;"></div>
                 </div>
             </div>
         </div>
@@ -256,15 +278,17 @@ console.log(type);
             </div>
         </div>
         <div class="about">
-            <span>${type}</span>
-            <span></span>
+            <span>${type1}</span>
+            ${type2}
         </div>
     </div>
     `
+    return html
 }
 
 
 
 
 // Chamadas
-getApi()
+
+getApi() // faz requisição à api
