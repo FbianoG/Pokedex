@@ -1,22 +1,71 @@
 let allPokemon = []
 
-
-
-
+let filterName = document.querySelectorAll('input')[0]
+let alvoTemp = ''
+let card = document.querySelectorAll('.card')[0]
+let list = document.querySelectorAll('.list')[0]
+let ordStatus = document.querySelectorAll('.ord')[0]
 let filterStatus = document.querySelectorAll('select')[0]
 
-filterStatus.addEventListener('change', ()=>{
-    let status = filterStatus.value
-    let allFilter = allPokemon.sort((a,b)=>{
-        return b[status] - a[status]
+console.log(ordStatus);
+
+// Eventos
+
+filterName.addEventListener('keyup', () => {
+    let allFilter = allPokemon.filter(element => {
+        if (!isNaN(filterName.value) && filterName.value != "") {
+            return element.id == filterName.value
+
+        } else {
+            return element.name.includes(filterName.value)
+        }
     })
     list.innerHTML = ''
-    console.log(allFilter);
     allFilter.forEach(element => {
-        creatCard(element)
+        createCard(element)
     });
-    
 })
+
+filterStatus.addEventListener('change', ordenar)
+ordStatus.addEventListener('change', ordenar)
+
+
+// Funções
+
+function ordenar() {
+    let status = filterStatus.value
+    let ord = ordStatus.value
+    let allChange = allPokemon.sort((a, b) => {
+        if (ord == "des") {
+            if (status == "name") {
+                return b[status].localeCompare(a[status])
+            } else {
+                return b[status] - a[status]
+            }
+        } else {
+            if (status == "name") {
+                return a[status].localeCompare(b[status])
+            } else {
+                return a[status] - b[status]
+            }
+        }
+
+    })
+    list.innerHTML = ''
+    allChange.forEach(element => {
+        createCard(element)
+    });
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -28,7 +77,7 @@ async function getApi() {
     if (cachePokemon) {
         allPokemon = JSON.parse(cachePokemon)
         allPokemon.forEach(element => {
-            creatCard(element)
+            createCard(element)
         });
         numPokemon = allPokemon.length + 1
     }
@@ -50,43 +99,25 @@ async function getApi() {
                 m: data.height,
                 kg: data.weight
             }
-            creatCard(pokemon)
+            createCard(pokemon)
             allPokemon.push(pokemon)
             localStorage.setItem("Cache Pokemon:", JSON.stringify(allPokemon))
         }
+
+        console.log(allPokemon);
     } catch (error) {
         console.log("Um erro foi encontrado:", error);
     }
-
-
+    list.addEventListener('click', showStatus)
 }
 
-
-let card = document.querySelectorAll('.card')[0].innerHTML
-let list = document.querySelectorAll('.list')[0]
-
-
-
-function creatCard(e) {
-    // array.forEach(e => {
+function createCard(e) {
     let newCard = document.createElement('div')
     newCard.classList = "card"
     newCard.innerHTML = modelCard(e)
     list.appendChild(newCard)
-    // })
-
-    list.addEventListener('click', showStatus)
-
 
 };
-
-// let faa = allPokemon.sort((a, b) => {
-//     return b.hp - a.hp
-// })
-
-// console.log(faa);
-
-let alvoTemp = ''
 
 function showStatus(e) {
     let alvo = e.target
@@ -115,15 +146,37 @@ function showStatus(e) {
 }
 
 
-// hp = 255
-// atk = 134
+let iconTypes = {
+    "grass": '<i class="fa-solid fa-leaf"></i>',
+    "fire": '<i class="fa-solid fa-fire"></i>',
+    "water": '<i class="fa-solid fa-droplet"></i>',
+    "bug": '<i class="fa-solid fa-bug"></i>',
+    "poison": '<i class="fa-solid fa-skull-crossbones"></i>',
+    "fighting": '<i class="fa-solid fa-hand-back-fist"></i>',
+    "rock": '<i class="fa-solid fa-hill-rockslide"></i>',
+    "dragon":'<i class="fa-solid fa-dragon"></i>',
+    "electric": '<i class="fa-solid fa-bolt"></i>',
+    "fairy": '<i class="fa-solid fa-wand-magic-sparkles"></i>',
+    "ground": '<i class="fa-solid fa-mound"></i>',
+    "normal":'<i class="fa-solid fa-filter"></i>',
+    "psychic": '<i class="fa-solid fa-brain"></i>',
+    "ghost": '<i class="fa-solid fa-ghost"></i>',
+    "ice": '<i class="fa-solid fa-cubes"></i>',
+    "dark": '<i class="fa-solid fa-circle-half-stroke"></i>',
+}
 
 function modelCard(e) {
+
+type = e.type1
+
+if (type in iconTypes) {
+    type = iconTypes[type]
+}
+console.log(type);
+
     return `
     <p class="card-id">#${e.id.toString().padStart(3, "0")}</p>
     <div class="card-image">
-        <span class="card-image-color1" style="box-shadow: ${changeBack(e)} ;"></span>
-        <span class="card-image-color2" style="box-shadow: ${changeBack(e)} ;" ></span>
         <img src="${e.img}" alt="">
     </div>
     <p class="card-name">${e.name}</p>
@@ -202,18 +255,16 @@ function modelCard(e) {
                 </div>
             </div>
         </div>
+        <div class="about">
+            <span>${type}</span>
+            <span></span>
+        </div>
     </div>
     `
-
-}
-
-function changeBack(e) {
-    // let back1 = e.parentElement.parentElement
-    // console.log(e);
-    // if (e.type1 == "fire"){
-    //     return "20px -20px 100px 75px red"
-    // }
 }
 
 
+
+
+// Chamadas
 getApi()
