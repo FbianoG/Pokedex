@@ -1,389 +1,465 @@
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body {
+    background: linear-gradient(to right, #e1f6e8, #bceafa);
+    background-repeat: no-repeat;
+    min-height: 100vh;
+}
+
+/* HEADER */
+header {
+    height: 300px;
+    width: 100%;
+    background: url("Pokemon-Go-video-games-Pikachu-pokemon-1222849-wallhere.com.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top;
+    box-shadow: 0px 2px 10px #555;
+    display: flex;
+    justify-content: center;
+    align-items: top;
+}
+
+.logo {
+    width: 350px;
+    height: 150px;
+    /* object-fit: cover; */
+}
+
+
+/* SEARCH BAR */
+.container-search {
+    margin: 0 auto;
+    height: 150px;
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    row-gap: 10px;
+    padding: 20px 0;
+}
+
+.container-search input {
+    height: 30px;
+    padding: 0 15px;
+    border-radius: 15px;
+    outline: none;
+    border: none;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.298);
+    color: #555;
+    width: 190px;
+}
+
+.selects {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 20px;
+    width: 350px;
+}
+
+.selects select {
+    border-radius: 15px;
+    height: 30px;
+    padding: 0 3px;
+    border: none;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.298);
+    color: #555;
+}
+
+.search-count {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-load {
+    width: 100px;
+    height: 35px;
+    color: #fdfdfd;
+    font-weight: 500;
+    letter-spacing: 1px;
+    background: #d24233;
+    border-radius: 15px;
+    border: 1px solid transparent;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.298);
+    ;
+}
+
+.btn-load:hover {
+    transition: 250ms;
+    cursor: pointer;
+    opacity: 0.9;
+    box-shadow: none;
+}
+
+
+/* LISTA */
+
+h3 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.list {
+    display: flex;
+    width: 70%;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 35px;
+    margin: 0 auto 50px;
+}
+
+
+/* CARD POKEMON */
+.card {
+    border-radius: 10px;
+    width: 200px;
+    height: 270px;
+    background: #fdfdfd;
+    overflow: hidden;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.298);
+}
+
+.card-id {
+    text-align: center;
+    color: #999;
+    font-weight: 500;
+    font-size: 12px;
+}
+
+.card-image {
+    width: 100%;
+    height: 70px;
+    /* border: 1px solid red; */
+    position: relative;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(4px 5px 5px #777);
+}
+
+.card-name {
+    text-align: center;
+    font-size: 16px;
+    color: #706D63;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.card-types {
+    display: flex;
+    justify-content: space-evenly;
+    display: none;
+}
+
+.card-types span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    border-radius: 15px;
+    padding: 3px 10px;
+}
+
+.card-data-menu {
+    display: flex;
+    justify-content: space-around;
+    color: #6E9B95;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 5px;
+    font-size: 13px;
+}
+
+.card-data-menu b {
+    color: #01af5b;
+    border-bottom: 2px solid;
+}
+
+.card-data {
+    /* min-height: 100px; */
+}
+
+.status {
+    display: none;
+}
+
+.card-data-status {
+    display: grid;
+    grid-template-columns: 55px 35px 1fr;
+    align-items: center;
+    font-size: 12px;
+    color: #888;
+    font-weight: 500;
+}
+
+.card-data-status p {
+    animation: alongar 800ms ease both;
+}
+
+.card-data-status b {
+    color: #555;
+}
+
+.status-bar {
+    width: 1%;
+    height: 50%;
+    background: #777;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    animation: alongar 800ms ease both;
+}
+
+@keyframes alongar {
+    0% {
+        width: 20%;
+        opacity: 0;
     }
 
-    body {
-        background: linear-gradient(to right, #e1f6e8, #bceafa);
-        background-repeat: no-repeat;
-        min-height: 100vh;
-    }
-
-    .imageA {
-        height: 300px;
+    100% {
         width: 100%;
-        background: url("Pokemon-Go-video-games-Pikachu-pokemon-1222849-wallhere.com.jpg");
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: top;
-        box-shadow: 0px 2px 10px #555;
-        display: flex;
-        justify-content: center;
-        align-items: top;
+    }
+}
+
+.status-bar-back {
+    background: #2fc190;
+    height: 100%;
+    position: absolute;
+    border-radius: 20px;
+}
+
+.fisico {
+    width: 100%;
+    display: none;
+    /* display: none; */
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    margin-top: 30px;
+    animation: surgir 500ms ease both;
+}
+
+@keyframes surgir {
+    0% {
+        opacity: 0;
+        margin-top: 50px;
     }
 
-    .imageA img {
-        width: 350px;
-        height: 150px;
-        /* object-fit: cover; */
+    100% {
+        opacity: 1;
     }
-
-
-    header {
-        margin: 0 auto;
-        height: 150px;
-        width: 70%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 20px;
-        row-gap: 10px;
-        padding: 20px 0;
-    }
-
-    header input {
-        width: 340px;
-        height: 30px;
-        padding: 0 15px;
-        border-radius: 15px;
-        outline: none;
-        border: none;
-        /* border: 1px solid #96acdc; */
-        box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.298);
-        color: #555;
-    }
-
-    header .selects {
-        display: flex;
-        gap: 20px;
-    }
-
-    header select {
-        border-radius: 15px;
-        height: 30px;
-        /* width: 130px; */
-        padding: 0 3px;
-        /* text-align: center; */
-        border: none;
-        box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.298);
-        color: #555;
-    }
-
-    h3 {
-        text-align: center;
-        margin-bottom: 30px;
-    }
-
-    .list {
-        display: flex;
-        width: 70%;
-        flex-wrap: wrap;
-        justify-content: space-evenly;
-        gap: 35px;
-        margin: 0 auto;
-    }
-
-    .card {
-        border-radius: 10px;
-        width: 200px;
-        height: 270px;
-        background: #fdfdfd;
-        overflow: hidden;
-        padding: 10px;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.298);
-    }
-
-    .card-id {
-        text-align: center;
-        color: #999;
-        font-weight: 500;
-        font-size: 12px;
-    }
-
-    .card-image {
-        width: 100%;
-        height: 70px;
-        /* border: 1px solid red; */
-        position: relative;
-
-
-    }
-
-    .card-image img {
-        width: 100%;
-        height: 100%;
-        filter: drop-shadow(4px 5px 5px #777);
-    }
-
-
-    .card-name {
-        text-align: center;
-        font-size: 16px;
-        color: #706D63;
-        font-weight: bold;
-        text-transform: capitalize;
-
-    }
-
-    .card-types {
-        display: flex;
-        justify-content: space-evenly;
-        display: none;
-    }
-
-    .card-types span {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100px;
-        border-radius: 15px;
-        padding: 3px 10px;
-    }
-
-
-    .card-data-menu {
-        display: flex;
-        justify-content: space-around;
-        color: #6E9B95;
-        font-weight: bold;
-        cursor: pointer;
-        margin-bottom: 5px;
-        font-size: 13px;
-    }
-
-    .card-data-menu b {
-        color: #01af5b;
-        border-bottom: 2px solid;
-    }
-
-    .card-data {
-        /* min-height: 100px; */
-    }
-
-    .status {
-        display: none;
-    }
-
-    .card-data-status {
-        display: grid;
-        grid-template-columns: 55px 35px 1fr;
-        align-items: center;
-        font-size: 12px;
-        color: #888;
-        font-weight: 500;
-
-    }
-
-    .card-data-status p {
-        animation: alongar 800ms ease both;
-    }
-
-    .card-data-status b {
-        color: #555;
-    }
-
-    .status-bar {
-        width: 1%;
-        height: 50%;
-        background: #777;
-        border-radius: 20px;
-        position: relative;
-        overflow: hidden;
-        animation: alongar 800ms ease both;
-    }
-
-    @keyframes alongar {
-        0% {
-            width: 20%;
-            opacity: 0;
-        }
-
-        100% {
-            width: 100%;
-        }
-
-
-    }
-
-    .status-bar-back {
-        background: #2fc190;
-        height: 100%;
-        position: absolute;
-        border-radius: 20px;
-
-    }
-
-
-    .fisico {
-        width: 100%;
-        display: none;
-        /* display: none; */
-        justify-content: center;
-        align-items: center;
-        font-size: 12px;
-        margin-top: 30px;
-        animation: surgir 500ms ease both;
-    }
-
-    @keyframes surgir {
-        0% {
-            opacity: 0;
-            margin-top: 50px;
-        }
-
-        100% {
-            opacity: 1;
-        }
-    }
-
-
-
-    .fisico-data {
-        height: 50px;
-        width: 100%;
-        border-radius: 10px;
-        display: grid;
-        grid-template-columns: 40% 40%;
-        color: #777;
-        justify-content: space-evenly;
-    }
-
-    .fisico-data div {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        column-gap: 10px;
-        row-gap: 5px;
-
-    }
-
-    .fisico-data b {
-        width: 100%;
-        text-align: center;
-        color: #555;
-    }
-
-
-
-
-
-
-    .about {
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        margin-top: 15px;
-    }
-
-    .about span i {
-        /* background: #e85b5b; */
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        box-shadow: 2px 2px 8px #777;
-    }
-
-
-    .fa-leaf {
-        background: #67d967;
-    }
-
-    .fa-fire {
-        background: #d24233;
-    }
-
-    .fa-droplet {
-        background: #4e74c4;
-    }
-
-    .fa-bug {
-        background: #48803d;
-    }
-
-    .fa-skull-crossbones {
-        background: #a346bf;
-    }
-
-    .fa-hill-rockslide {
-        background: #6e6e6e;
-    }
-
-    .fa-dragon {
-        background: #de6433;
-    }
-
-    .fa-bolt {
-        background: #dfdf43;
-    }
-
-    .fa-mound {
-        background: #894321;
-    }
-
-    .fa-filter {
-        background: #ece8db;
-    }
-
-    .fa-brain {
-        background: #d73dda;
-    }
-
-    .fa-ghost {
-        background: #664497;
-    }
-
-    .fa-hand-back-fist {
-        background: #d4925c;
-    }
-
-    .fa-circle-half-stroke {
-        background: #3b3b3b;
-    }
-
-    .fa-cubes {
-        background: #8dd8ef;
-    }
-
-    .fa-wand-magic-sparkles {
-        background: #feadd3;
-    }
-
-    .fa-dove {
-        background: #c9e6ed;
-    }
-
-
-
-    /* box-shadow: -20px 20px 100px 50px green;
+}
+
+.fisico-data {
+    height: 50px;
+    width: 100%;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: 40% 40%;
+    color: #777;
+    justify-content: space-evenly;
+}
+
+.fisico-data div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    column-gap: 10px;
+    row-gap: 5px;
+}
+
+.fisico-data b {
+    width: 100%;
+    text-align: center;
+    color: #555;
+}
+
+.about {
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 15px;
+    animation: surgir 500ms ease both;
+}
+
+.about label {
+    color: #999;
+    font-weight: 500;
+    font-size: 14px;
+    text-transform: capitalize;
+}
+
+.about span i {
+    /* background: #e85b5b; */
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 2px 2px 8px #777;
+}
+
+.fa-leaf {
+    background: #67d967;
+}
+
+.fa-fire {
+    background: #d24233;
+}
+
+.fa-droplet {
+    background: #4e74c4;
+}
+
+.fa-bug {
+    background: #48803d;
+}
+
+.fa-skull-crossbones {
+    background: #a346bf;
+}
+
+.fa-hill-rockslide {
+    background: #6e6e6e;
+}
+
+.fa-dragon {
+    background: #de6433;
+}
+
+.fa-bolt {
+    background: #dfdf43;
+}
+
+.fa-mound {
+    background: #894321;
+}
+
+.fa-filter {
+    background: #ece8db;
+}
+
+.fa-brain {
+    background: #d73dda;
+}
+
+.fa-ghost {
+    background: #664497;
+}
+
+.fa-hand-back-fist {
+    background: #d4925c;
+}
+
+.fa-circle-half-stroke {
+    background: #3b3b3b;
+}
+
+.fa-cubes {
+    background: #8dd8ef;
+}
+
+.fa-wand-magic-sparkles {
+    background: #feadd3;
+}
+
+.fa-dove {
+    background: #c9e6ed;
+}
+
+.help {
+    position: fixed;
+    right: 50px;
+    bottom: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #222;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: #2fc190;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.help:hover {
+    transition: 250ms;
+    opacity: 0.5;
+}
+
+.deep-help {
+    position: fixed;
+    background: #fdfdfd;
+    width: 300px;
+    height: 200px;
+    right: -350px;
+    bottom: 80px;
+    border-radius: 15px;
+    opacity: 0;
+    transition: 250ms;
+    padding: 10px 20px;
+    color: #6E9B95;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.327);
+}
+
+.deep-help p {
+    font-size: 13px;
+    color: #555;
+    margin-top: 10px;
+}
+
+
+
+
+
+/* box-shadow: -20px 20px 100px 50px green;
 box-shadow: 20px -20px 100px 50px red; */
-
-
-
-@media screen and (max-width: 975px ) {
+@media screen and (max-width: 975px) {
     .list {
         width: 90%;
     }
-    header {
+
+    .container-search {
         width: 90%;
     }
 }
 
-@media screen and (max-width: 500px ) {
-    .list {
+@media screen and (max-width: 615px) {
+    .container-search {
+        height: 200px;
+    }
+
+}
+
+@media screen and (max-width: 500px) {
+    he .list {
         width: 100%;
         gap: 10px;
         row-gap: 30px;
     }
+
     .card {
         width: 150px;
     }

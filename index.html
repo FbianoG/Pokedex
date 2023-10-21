@@ -13,14 +13,15 @@
 </head>
 
 <body>
-    <div class="imageA">
-        <img src="International_Pokémon_logo.svg.png" alt="">
-    </div>
+
     <header>
-        <input type="text" placeholder="Pesquisar (nome ou id)">
+        <img class="logo" src="International_Pokémon_logo.svg.png" alt="">
+    </header>
+    <div class="container-search">
+        <input type="text" placeholder="Pesquisar (nome ou id)" class="input-search">
         <div class="selects">
-            <select name="" id="">
-                <option value="" disabled selected>Filtrar por</option>
+            <select name="status" class="input-status">
+                <option value="" disabled selected>Ordenar por</option>
                 <option value="id">Id</option>
                 <option value="name">Nome</option>
                 <option value="exp">Experiência</option>
@@ -29,21 +30,30 @@
                 <option value="def">Defesa</option>
                 <option value="spd">Velocidade</option>
             </select>
-            <select name="" id="" class="ord">
-                <option value="" disabled selected>Ordernar por</option>
+            <select name="tidy" class="input-tidy">
+                <option value="" disabled selected>Ordem</option>
                 <option value="cres">A-Z</option>
                 <option value="des">Z-A</option>
             </select>
-            <select name="" id="" class="ord">
-                <option value="" disabled selected>Ordernar por</option>
-                <option value="cres">A-Z</option>
-                <option value="des">Z-A</option>
+            <select name="category" class="input-category">
+                <option value="" disabled selected>Filtrar por</option>
+                <option value="cres">Grama</option>
+                <option value="des">Fogo</option>
+                <option value="des">Água</option>
+                <option value="des">Terra</option>
+                <option value="des">Inseto</option>
+                <option value="des">Normal</option>
             </select>
         </div>
-        <input type="number" placeholder="Carregar até: (max: 649)">
-        <button>Carregar</button>
-    </header>
-    <h3>0 / 649</h3>
+        <div class="search-count">
+            <input type="number" placeholder="Carregar até: (max: 649)" class="input-count">
+            <button class="btn-load">Carregar</button>
+        </div>
+    </div>
+
+
+
+    <h3 class="count">0 / 649</h3>
     <div class="list">
         <div class="card">
             <p class="card-id">#001</p>
@@ -128,6 +138,14 @@
                 </div>
             </div>
         </div>
+    </div>
+    <span class="help">
+        <i class="fa-solid fa-circle-info"></i>
+    </span>
+
+    <div class="deep-help">
+        <h4>Pokedex</h4>
+        <p>Bem-vindo ao Pokédex, a sua porta de entrada para o maravilhoso mundo dos Pokémon! Esta aplicação é o resultado de um trabalho dedicado e apaixonado para trazer a você uma ferramenta completa para explorar e aprender sobre os diversos Pokémon que habitam o universo Pokémon.</p>
     </div>
 </body>
 

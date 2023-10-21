@@ -18,29 +18,41 @@ let iconTypes = {
     "dark": '<i class="fa-solid fa-circle-half-stroke"></i>',
     "flying": '<i class="fa-solid fa-dove"></i>',
 }
-let valueTarget = document.querySelectorAll('input')[1]
-let btnGerar = document.querySelectorAll('button')[0]
-let filterName = document.querySelectorAll('input')[0]
+let valueTarget = document.querySelectorAll('.input-count')[0]
+let btnGerar = document.querySelectorAll('.btn-load')[0]
+let filterName = document.querySelectorAll('.input-search')[0]
 let alvoTemp = ''
 let card = document.querySelectorAll('.card')[0]
 let list = document.querySelectorAll('.list')[0]
-let ordStatus = document.querySelectorAll('.ord')[0]
-let filterStatus = document.querySelectorAll('select')[0]
+let filterStatus = document.querySelectorAll('.input-status')[0]
+let ordStatus = document.querySelectorAll('.input-tidy')[0]
 let count = document.querySelectorAll('h3')[0]
+let help = document.querySelectorAll('.help')[0]
+let deepHelp = document.querySelectorAll('.deep-help')[0]
 
-valueTarget.value = 25 
 
 
 // Eventos
 
-filterName.addEventListener('keyup',searchPokemon)
+filterName.addEventListener('keyup', searchPokemon)
 filterStatus.addEventListener('change', ordenar)
 ordStatus.addEventListener('change', ordenar)
 btnGerar.addEventListener('click', getApi)
-
+help.addEventListener('click', showHelp)
 
 
 // Funções
+
+function showHelp() {
+    if (deepHelp.style.right == '50px') {
+        deepHelp.style.right = "-350px"
+        deepHelp.style.opacity = "0"
+    } else {
+        deepHelp.style.right = "50px"
+        deepHelp.style.opacity = "1"
+    }
+
+}
 
 function countPokemon() {
     let cards = document.querySelectorAll('.card')
@@ -64,7 +76,7 @@ async function getApi() { // faz requisição à api
             let api = await fetch(`https://pokeapi.co/api/v2/pokemon/${i}/`)
             let data = await api.json()
             let pokemon = createPokemon(data) // criar um pokemon com os dados da api
-            createCard(pokemon) // crio o html do pokemon
+            createCard(pokemon) // cria  html do pokemon
             allPokemon.push(pokemon) // inclui o pokemon no array
             localStorage.setItem("Cache Pokemon:", JSON.stringify(allPokemon)) // salva o array no cache
             countPokemon()
@@ -79,7 +91,7 @@ async function getApi() { // faz requisição à api
 
 function searchPokemon() { // function de pesquisar o pokemon por "nome" ou "id"
     let allFilter = allPokemon.filter(element => {
-        if (!isNaN(filterName.value) && filterName.value != "") {
+        if (!isNaN(filterName.value) && filterName.value != "") { // Verifica se o valor digitado é um "número"
             return element.id == filterName.value
         } else {
             return element.name.includes(filterName.value)
@@ -92,12 +104,15 @@ function searchPokemon() { // function de pesquisar o pokemon por "nome" ou "id"
     countPokemon()
 }
 
-function ordenar() { // filtra a lista por categoria e ordem
+function ordenar() { // filtra a lista por "status" e "ordenar"
     let status = filterStatus.value
     let ord = ordStatus.value
+    console.log(ord);
     let allChange = allPokemon.sort((a, b) => {
         if (ord == "des") {
+            console.log("chegou aqui");
             if (status == "name") {
+                
                 return b[status].localeCompare(a[status])
             } else {
                 return b[status] - a[status]
@@ -111,6 +126,7 @@ function ordenar() { // filtra a lista por categoria e ordem
         }
 
     })
+    
     list.innerHTML = ''
     allChange.forEach(element => {
         createCard(element)
@@ -126,36 +142,43 @@ function createCard(e) { // cria o html do pokemon
 
 function showStatus(e) { // alterna entre as abas do status do pokemon
     let alvo = e.target
+    let status = alvo.parentElement.parentElement.querySelectorAll('.status')[0]
+    let fisico = alvo.parentElement.parentElement.querySelectorAll('.fisico')[0]
+    let about = alvo.parentElement.parentElement.querySelectorAll(".about")[0]
 
     if (alvo.textContent == 'Status') {
         alvoTemp.style = ''
-        let status = alvo.parentElement.parentElement.querySelectorAll('.status')[0]
-        let fisico = alvo.parentElement.parentElement.querySelectorAll('.fisico')[0]
         status.style.display = "grid"
         fisico.style.display = "none"
+        about.style.display = "none"
         alvo.style.color = "#01af5b"
         alvo.style.borderBottom = "2px solid"
         alvoTemp = alvo
     } else if (alvo.textContent == 'Físico') {
         alvoTemp.style = ''
-        let status = alvo.parentElement.parentElement.querySelectorAll('.status')[0]
-        let fisico = alvo.parentElement.parentElement.querySelectorAll('.fisico')[0]
         status.style.display = "none"
+        about.style.display = "none"
         fisico.style.display = "flex"
         alvo.style.color = "#01af5b"
         alvo.style.borderBottom = "2px solid"
         alvoTemp = alvo
-    } else {
-        return
+    } else if (alvo.textContent == "About") {
+        alvoTemp.style = ''
+        status.style.display = "none"
+        fisico.style.display = "none"
+        about.style.display = "flex"
+        alvo.style.color = "#01af5b"
+        alvo.style.borderBottom = "2px solid"
+        alvoTemp = alvo
     }
 }
 
 function createPokemon(e) { // cria um pokemon
     let typeT = ''
     if (e.types[1]) {
-       typeT = e.types[1].type.name  
-    }else {
-       typeT = ""
+        typeT = e.types[1].type.name
+    } else {
+        typeT = ""
     }
     return {
         id: e.id,
@@ -202,10 +225,6 @@ function modelCard(e) { // cria o html do pokemon
         <img src="${img}" alt="">
     </div>
     <p class="card-name">${name}</p>
-    <div class="card-types">
-        <span>${type1}</span>
-        <span>${type1}</span>
-    </div>
     <div class="card-data">
         <div class="card-data-menu">
             <p>About</p>
@@ -279,7 +298,9 @@ function modelCard(e) { // cria o html do pokemon
         </div>
         <div class="about">
             <span>${type1}</span>
+            <label>${e.type1}</label>
             ${type2}
+            <label>${e.type2}</label>
         </div>
     </div>
     `
