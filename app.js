@@ -26,6 +26,7 @@ let card = document.querySelectorAll('.card')[0]
 let list = document.querySelectorAll('.list')[0]
 let filterStatus = document.querySelectorAll('.input-status')[0]
 let ordStatus = document.querySelectorAll('.input-tidy')[0]
+let filterCategory = document.querySelectorAll('.input-category')[0]
 let count = document.querySelectorAll('h3')[0]
 let help = document.querySelectorAll('.help')[0]
 let deepHelp = document.querySelectorAll('.deep-help')[0]
@@ -37,13 +38,14 @@ let deepHelp = document.querySelectorAll('.deep-help')[0]
 filterName.addEventListener('keyup', searchPokemon)
 filterStatus.addEventListener('change', ordenar)
 ordStatus.addEventListener('change', ordenar)
+filterCategory.addEventListener('change', filter)
 btnGerar.addEventListener('click', getApi)
 help.addEventListener('click', showHelp)
 
 
 // Funções
 
-function showHelp() {
+function showHelp() { // Botão de help no final da página
     if (deepHelp.style.right == '50px') {
         deepHelp.style.right = "-350px"
         deepHelp.style.opacity = "0"
@@ -54,7 +56,7 @@ function showHelp() {
 
 }
 
-function countPokemon() {
+function countPokemon() { // Muda a contagem de acordo com o total de pokemons gerados da API
     let cards = document.querySelectorAll('.card')
     count.textContent = `${cards.length} / 649`
 }
@@ -104,7 +106,7 @@ function searchPokemon() { // function de pesquisar o pokemon por "nome" ou "id"
     countPokemon()
 }
 
-function ordenar() { // filtra a lista por "status" e "ordenar"
+function ordenar() { // Ordenar a lista por "status"
     let status = filterStatus.value
     let ord = ordStatus.value
     console.log(ord);
@@ -112,7 +114,7 @@ function ordenar() { // filtra a lista por "status" e "ordenar"
         if (ord == "des") {
             console.log("chegou aqui");
             if (status == "name") {
-                
+
                 return b[status].localeCompare(a[status])
             } else {
                 return b[status] - a[status]
@@ -126,11 +128,35 @@ function ordenar() { // filtra a lista por "status" e "ordenar"
         }
 
     })
-    
+
     list.innerHTML = ''
     allChange.forEach(element => {
         createCard(element)
     });
+}
+
+function filter() { // Filtra os Pokemons pelo tipo
+    let type = filterCategory.value
+    let filterPokemon1 = allPokemon.filter(element => {
+        return element.type1 == type
+    })
+    let filterPokemon2 = allPokemon.filter(element => {
+        return element.type2 == type
+    })
+    if (filterPokemon1.length > 0) {
+        list.innerHTML = ""
+        filterPokemon1.forEach(element => {
+            createCard(element)
+        });
+    } else {
+        list.innerHTML = ""
+    }
+    if (filterPokemon2.length > 0) {
+        filterPokemon2.forEach(element => {
+            createCard(element)
+        });
+    }
+
 }
 
 function createCard(e) { // cria o html do pokemon
